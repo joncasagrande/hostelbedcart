@@ -9,7 +9,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class ExchangeRateImpl {
+class ExchangeRateImpl(val callback: Callback) {
     private val exchangeRateAPI: ExchangeRateAPI = BaseAPI.getInstance()
         .createService(ExchangeRateAPI::class.java)
 
@@ -30,11 +30,12 @@ class ExchangeRateImpl {
 
                 override fun onSuccess(exchange: Exchange) {
                     Log.d(ExchangeRateAPI::class.simpleName, "Success called")
+                    callback.onSuccess(exchange)
                 }
 
                 override fun onError(throwable: Throwable) {
                     Log.d(ExchangeRateAPI::class.simpleName, "Error calling address API.", throwable)
-                    //callback.onError(BaseAPI.getErrorMessage(throwable))
+                    callback.onError(BaseAPI.getErrorMessage(throwable))
                 }
             })
     }

@@ -4,25 +4,23 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
+import com.jonathan.hostelbedcart.BaseApplication
 import okhttp3.OkHttpClient
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Inject
 
-class BaseAPI private constructor() {
+class BaseAPI  {
     private val builder: Retrofit.Builder
 
-    @Inject
-    internal var okHttpClient: OkHttpClient? = null
+
+    internal var okHttpClient: OkHttpClient? = BaseHttp(BaseApplication.instance!!.cacheDir).httpClient
 
     init {
-
         builder = Retrofit.Builder()
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
-        okHttpClient = BaseHttp().httpClient
     }
 
     fun <S> createService(serviceClass: Class<S>): S {
@@ -31,11 +29,6 @@ class BaseAPI private constructor() {
 
         val retrofit = builder.client(okHttpClient!!).build()
         return retrofit.create(serviceClass)
-
-
-
-
-
     }
 
     private inner class ErrorParser {

@@ -1,19 +1,12 @@
 package com.jonathan.hostelbedcart.rest
 
-import com.jonathan.hostelbedcart.BaseApplication
-import dagger.Module
-import dagger.Provides
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import java.io.File
 import java.util.concurrent.TimeUnit
-import javax.inject.Singleton
+class BaseHttp(val dir : File) {
 
-@Module
-class BaseHttp {
-
-    @get:Provides
-    @get:Singleton
     internal var httpClient: OkHttpClient? = null
         private set
 
@@ -40,7 +33,7 @@ class BaseHttp {
 
     private fun createCache(): Cache {
         val size = 10 * 1024 * 1024//10mb
-        return Cache(BaseApplication.instance!!.cacheDir, size.toLong())
+        return Cache(dir, size.toLong())
     }
 
 }
