@@ -1,16 +1,36 @@
 package com.jonathan.hostelbedcart.model
 
-import java.util.*
+import android.util.ArrayMap
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import com.google.gson.annotations.SerializedName
+import java.lang.reflect.Type
 
-data class Exchange(val base: String, val rates : List<Rates>,val date: String) {
+data class Exchange(@SerializedName("base") val base: String,
+                    @SerializedName("rates") val rates : ArrayMap<String, Float>,
+                    @SerializedName("date") val date: String) : JsonDeserializer<Exchange> {
 
-    fun convetChange(from: Currency, to: Currency): Float{
-        return 0f
+
+    override fun deserialize(jElement: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): Exchange {
+        val jObject = jElement!!.getAsJsonObject()
+        val base = jObject.get("base").asString
+        val date = jObject.get("date").getAsString()
+        val ratesValues = jObject.get("rates").getAsString()
+        val rates = ratesValues.split(",").associate {
+            val (left, right) = it.split(":")
+            left to right.toFloat()
+        }
+        return Exchange(base,rates as ArrayMap<String, Float>,date)
     }
 
-
-    private fun getRateCurreny(currency: Currency):Rates{
-        return rates.filter{ it.locale == currency.currencyCode }[0]
-
+    fun calculatePriceInCurrency(currency: String, value: Float):Float {
+        if(rates[currency] == null) return -1F
+        return value * rates[currency]!!
     }
+
+    fun calculatePriceInUSD(value : Float):Float{
+        return calculatePriceInCurrency("USD",value)
+    }
+
 }
