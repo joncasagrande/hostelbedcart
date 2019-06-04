@@ -2,11 +2,10 @@ package com.jonathan.hostelbedcart.module
 
 import com.jonathan.hostelbedcart.rest.BaseAPI
 import com.jonathan.hostelbedcart.rest.BaseHttp
+import com.jonathan.hostelbedcart.viewmodel.MainActivityViewModel
 import org.koin.dsl.module
 
-// just declare it
-val webModule = module {
-    // provided web components
-    factory { BaseHttp() }
-    single { BaseAPI() }
+val viewModelModule = module {
+    single { MainActivityViewModel() }
+
 }
