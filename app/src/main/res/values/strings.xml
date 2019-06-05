@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">HostelBedCart</string>
+    <string name="checkout">Checkout</string>
+    <string name="total">TOTAL</string>
 </resources>
