@@ -12,4 +12,5 @@ interface ExchangeRateAPI {
     @GET("latest")
     @Headers("Content-type: application/json")
     fun getCurrency(@Query("symbols") currency: String): Single<Exchange>
+
 }

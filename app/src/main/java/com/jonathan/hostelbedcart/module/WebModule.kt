@@ -7,6 +7,8 @@ import org.koin.dsl.module
 // just declare it
 val webModule = module {
     // provided web components
-    factory { BaseHttp() }
-    single { BaseAPI() }
+    single { BaseAPI(get()) }
+    single { BaseHttp() }
+
+
 }

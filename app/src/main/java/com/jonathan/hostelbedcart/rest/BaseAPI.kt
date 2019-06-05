@@ -4,20 +4,19 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
-import com.jonathan.hostelbedcart.BaseApplication
 import okhttp3.OkHttpClient
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-class BaseAPI  {
+class BaseAPI(val baseHttp : BaseHttp) {
     private val builder: Retrofit.Builder
+    internal var okHttpClient: OkHttpClient? = null
 
-
-    internal var okHttpClient: OkHttpClient? = BaseHttp(BaseApplication.instance!!.cacheDir).httpClient
 
     init {
+        okHttpClient = baseHttp.httpClient
         builder = Retrofit.Builder()
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
@@ -30,6 +29,7 @@ class BaseAPI  {
         val retrofit = builder.client(okHttpClient!!).build()
         return retrofit.create(serviceClass)
     }
+
 
     private inner class ErrorParser {
         @SerializedName("errors")
@@ -53,16 +53,6 @@ class BaseAPI  {
 
         private val TAG = BaseAPI::class.java.simpleName
         private val serverAddress = "https://api.exchangeratesapi.io/"
-
-        private var instance: BaseAPI? = null
-
-        fun getInstance(): BaseAPI {
-            if (instance == null) {
-                instance = BaseAPI()
-            }
-            return instance as BaseAPI
-        }
-
 
         fun getErrorMessage(throwable: Throwable): String {
             if (throwable is HttpException) {

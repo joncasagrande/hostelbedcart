@@ -8,10 +8,12 @@ import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
-class ExchangeRateImpl(val callback: Callback) {
-    private val exchangeRateAPI: ExchangeRateAPI = BaseAPI.getInstance()
-        .createService(ExchangeRateAPI::class.java)
+class ExchangeRateImpl(val callback: Callback) : KoinComponent {
+    val baseAPI : BaseAPI by inject()
+    private val exchangeRateAPI: ExchangeRateAPI = baseAPI.createService(ExchangeRateAPI::class.java)
 
     interface Callback {
         fun onSuccess(exchange: Exchange)

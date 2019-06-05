@@ -3,12 +3,12 @@ package com.jonathan.hostelbedcart.rest
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.core.KoinComponent
 import java.io.File
 import java.util.concurrent.TimeUnit
-class BaseHttp(val dir : File) {
-
-    internal var httpClient: OkHttpClient? = null
-        private set
+class BaseHttp(){
+    var httpClient: OkHttpClient? = null
+    var dir : File? = null
 
     private val logginInterceptor: HttpLoggingInterceptor
         get() {
@@ -27,7 +27,9 @@ class BaseHttp(val dir : File) {
         httpClientBuilder.connectTimeout(60L, TimeUnit.SECONDS)
         httpClientBuilder.readTimeout(60L, TimeUnit.SECONDS)
         httpClientBuilder.addInterceptor(logginInterceptor)
-        httpClientBuilder.cache(createCache())
+        if(dir!=null) {
+            httpClientBuilder.cache(createCache())
+        }
         return httpClientBuilder.build()
     }
 

@@ -11,8 +11,7 @@ class BaseHttpTest {
     lateinit var baseHttp: BaseHttp
     @Before
     fun setUp() {
-
-        baseHttp = BaseHttp(File.createTempFile("temp","test"))
+        baseHttp = BaseHttp()
     }
 
     @Test

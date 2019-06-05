@@ -8,20 +8,15 @@ import org.koin.core.context.startKoin
 
 class BaseApplication : Application() {
 
-
     override fun onCreate() {
         super.onCreate()
 
         startKoin {
             // Android context
             androidContext(this@BaseApplication)
-
             modules(listOf(webModule, viewModelModule))
-
         }
-
         instance = this
-
     }
 
     companion object {
@@ -29,7 +24,5 @@ class BaseApplication : Application() {
 
         var instance: BaseApplication? = null
             private set
-
-
     }
 }
