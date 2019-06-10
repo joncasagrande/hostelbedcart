@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         mainActivityViewModel.getTotalPrice().observe(this, resultObserver)
 
         rvroom.layoutManager = LinearLayoutManager(this)
-        rvroom.adapter = BedroomAdapter(mainActivityViewModel.bedroomList)
+        rvroom.adapter = BedroomAdapter(mainActivityViewModel.bedroomList, mainActivityViewModel.priceChangeListener)
     }
 
 

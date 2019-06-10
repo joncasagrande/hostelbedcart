@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jonathan.hostelbedcart.R
 import com.jonathan.hostelbedcart.model.Bedroom
+import com.jonathan.hostelbedcart.viewmodel.MainActivityViewModel
 import kotlinx.android.synthetic.main.row_item.view.*
 
-class BedroomAdapter(val data: List<Bedroom>) : RecyclerView.Adapter<BedroomAdapter.BedroomViewHolder>() {
+class BedroomAdapter(val data: List<Bedroom>, val priceChangeListener: MainActivityViewModel.PriceChangeListener) : RecyclerView.Adapter<BedroomAdapter.BedroomViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BedroomViewHolder {
         return BedroomViewHolder(
@@ -22,7 +23,7 @@ class BedroomAdapter(val data: List<Bedroom>) : RecyclerView.Adapter<BedroomAdap
     override fun onBindViewHolder(holder: BedroomViewHolder, position: Int) = holder.bind(data[position])
 
 
-    class BedroomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class BedroomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: Bedroom) = with(itemView) {
             tvBedroom.text = item.name
 
@@ -30,6 +31,7 @@ class BedroomAdapter(val data: List<Bedroom>) : RecyclerView.Adapter<BedroomAdap
                 if(item.bookedBeds <= item.beds){
                     item.bookedBeds++
                     tvBed.text = item.bookedBeds.toString()
+                    this@BedroomAdapter.priceChangeListener.udpatePrice()
                 }
             }
 
@@ -37,6 +39,7 @@ class BedroomAdapter(val data: List<Bedroom>) : RecyclerView.Adapter<BedroomAdap
                 if(item.bookedBeds >= 0){
                     item.bookedBeds--
                     tvBed.text = item.bookedBeds.toString()
+                    this@BedroomAdapter.priceChangeListener.udpatePrice()
                 }
             }
 

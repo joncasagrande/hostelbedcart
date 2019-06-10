@@ -14,7 +14,6 @@ class BaseAPI(val baseHttp : BaseHttp) {
     private val builder: Retrofit.Builder
     internal var okHttpClient: OkHttpClient? = null
 
-
     init {
         okHttpClient = baseHttp.httpClient
         builder = Retrofit.Builder()

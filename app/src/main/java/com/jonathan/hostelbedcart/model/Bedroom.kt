@@ -1,18 +1,15 @@
 package com.jonathan.hostelbedcart.model
 
-data class Bedroom(val name: String, val description: String, val beds : Int, val priceBed: Float, var selectedBed: Int = 0){
+data class Bedroom(val name: String, val description: String, val beds : Int, val priceBed: Float){
 
     var bookedBeds: Int = 0
         set(value){
-            if (value in 1..beds){
+            if (value in 0..beds){
             field = value
             }
         }
 
-    init {
-        bookedBeds = selectedBed
-    }
     fun totalPriceRoom(): Float = (priceBed * beds)
 
-    fun calculatePrice():Float = (bookedBeds * priceBed)
+    fun calculatePricePerBookedBeds():Float = (bookedBeds * priceBed)
 }

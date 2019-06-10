@@ -19,6 +19,7 @@ class BaseApplication : Application() {
         instance = this
     }
 
+
     companion object {
         private val TAG = BaseApplication::class.java.simpleName
 

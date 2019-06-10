@@ -33,4 +33,6 @@ data class Exchange(@SerializedName("base") val base: String,
         return calculatePriceInCurrency("USD",value)
     }
 
+
+
 }

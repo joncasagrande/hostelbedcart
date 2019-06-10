@@ -10,5 +10,4 @@ val webModule = module {
     single { BaseAPI(get()) }
     single { BaseHttp() }
 
-
 }
